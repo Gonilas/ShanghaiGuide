@@ -262,15 +262,16 @@ box-shadow: 0 2px 6px rgba(234, 88, 12, 0.25);
 .map-btn:active {
 background-color: var(--primary-orange);
 }
+
+/* Единый стиль карточек маршрутов (без левой полоски) */
 .route-card {
-border-left: 4px solid var(--accent-orange);
+/* Убрана оранжевая полоска border-left */
 }
 .route-num {
-font-size: 12px;
-font-weight: 700;
-color: var(--accent-orange);
-text-transform: uppercase;
-letter-spacing: 0.5px;
+font-size: 13px;
+font-weight: 600;
+color: var(--text-sub);
+margin-top: 2px;
 }
 
 .route-steps {
@@ -345,16 +346,16 @@ font-size: 14px;
 <header>
 <h1>Путеводитель по Шанхаю</h1>
 <div class="subtitle">Локации и маршруты в радиусе 11 км от дома</div>
-<div class="counter-badge" id="visited-counter">Посещено: 0 из 23</div>
+<div class="counter-badge" id="visited-counter">Посещено: 0 из 24</div>
 </header>
 <div class="nav-tabs">
-<button class="tab-btn active" onclick="switchTab('locations')">📍 Локации (23)</button>
+<button class="tab-btn active" onclick="switchTab('locations')">📍 Локации (24)</button>
 <button class="tab-btn" onclick="switchTab('routes')">🗺 Маршруты (5)</button>
 </div>
 <!-- ЛОКАЦИИ -->
 <main id="locations-section" class="section">
 
-<div class="card" data-id="loc-1" data-order="1">
+<div class="card" data-id="loc-1">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Парк Цзуйбайчи</div>
@@ -374,7 +375,27 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C72B3A4" class="map-btn" target="_blank">Открыть в Apple Maps (0.72 км)</a>
 </div>
 
-<div class="card" data-id="loc-2" data-order="2">
+<div class="card" data-id="loc-dongyue">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Храм Дуньюэ</div>
+<div class="title-zh">松江东岳庙</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-dongyue')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Даосский храм</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">Историческое место</span>
+</div>
+<div class="description">Древний даосский храм в историческом центре Сунцзяна, посвященный божеству священной горы Тайшань. Уютный духовный центр с традиционной архитектурой, скрытый в тихих переулках старого города.</div>
+<a href="https://maps.apple.com/place?address=Zhongshan%20Middle%20Road%20196%20Long%20No.9,%20Songjiang,%20Shanghai%20China&coordinate=31.007992,121.233345&name=Dongyue%20Temple&place-id=H2710I3F80D8CCB5E2B" class="map-btn" target="_blank">Открыть в Apple Maps (0.85 км)</a>
+</div>
+
+<div class="card" data-id="loc-2">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Сунцзянская мечеть</div>
@@ -394,7 +415,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CB85865" class="map-btn" target="_blank">Открыть в Apple Maps (1.07 км)</a>
 </div>
 
-<div class="card" data-id="loc-3" data-order="3">
+<div class="card" data-id="loc-3">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Храм Силинь / Пагода Юаньин</div>
@@ -414,7 +435,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C56E53A" class="map-btn" target="_blank">Открыть в Apple Maps (1.20 км)</a>
 </div>
 
-<div class="card" data-id="loc-4" data-order="4">
+<div class="card" data-id="loc-4">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Парк Фантаюань</div>
@@ -434,7 +455,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C85F07E" class="map-btn" target="_blank">Открыть в Apple Maps (1.47 км)</a>
 </div>
 
-<div class="card" data-id="loc-5" data-order="5">
+<div class="card" data-id="loc-5">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Музей Сунцзяна</div>
@@ -454,7 +475,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CC0A460" class="map-btn" target="_blank">Открыть в Apple Maps (1.47 км)</a>
 </div>
 
-<div class="card" data-id="loc-6" data-order="6">
+<div class="card" data-id="loc-6">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Центр «Юньцзянь» (Театр)</div>
@@ -473,7 +494,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F965198482B8" class="map-btn" target="_blank">Открыть в Apple Maps (1.97 км)</a>
 </div>
 
-<div class="card" data-id="loc-7" data-order="7">
+<div class="card" data-id="loc-7">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Юньцзянь Лянцан</div>
@@ -493,7 +514,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F937E65A52F7" class="map-btn" target="_blank">Открыть в Apple Maps (1.99 км)</a>
 </div>
 
-<div class="card" data-id="loc-8" data-order="8">
+<div class="card" data-id="loc-8">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Квартал Цанчэн / Мост Дацан</div>
@@ -512,7 +533,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F980F0589CD8" class="map-btn" target="_blank">Открыть в Apple Maps (2.35 км)</a>
 </div>
 
-<div class="card" data-id="loc-9" data-order="9">
+<div class="card" data-id="loc-9">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Парк Сысянь</div>
@@ -532,7 +553,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C9D55E3" class="map-btn" target="_blank">Открыть в Apple Maps (2.72 км)</a>
 </div>
 
-<div class="card" data-id="loc-10" data-order="10">
+<div class="card" data-id="loc-10">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Парк Улунху</div>
@@ -552,7 +573,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268ECC4620" class="map-btn" target="_blank">Открыть в Apple Maps (2.75 км)</a>
 </div>
 
-<div class="card" data-id="loc-11" data-order="11">
+<div class="card" data-id="loc-11">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Тэмс-Таун</div>
@@ -572,7 +593,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDF7284" class="map-btn" target="_blank">Открыть в Apple Maps (3.99 км)</a>
 </div>
 
-<div class="card" data-id="loc-12" data-order="12">
+<div class="card" data-id="loc-12">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Университетский городок</div>
@@ -591,7 +612,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I447A94881AB9A" class="map-btn" target="_blank">Открыть в Apple Maps (4.61 км)</a>
 </div>
 
-<div class="card" data-id="loc-13" data-order="13">
+<div class="card" data-id="loc-13">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Загородный парк Суннань</div>
@@ -611,7 +632,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F97F6D09F0CE" class="map-btn" target="_blank">Открыть в Apple Maps (4.82 км)</a>
 </div>
 
-<div class="card" data-id="loc-14" data-order="14">
+<div class="card" data-id="loc-14">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Археологический комплекс Гуанфулинь</div>
@@ -630,7 +651,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F92677E15CC5" class="map-btn" target="_blank">Открыть в Apple Maps (6.45 км)</a>
 </div>
 
-<div class="card" data-id="loc-15" data-order="15">
+<div class="card" data-id="loc-15">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Загородный парк Гуанфулинь</div>
@@ -650,7 +671,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268214745C" class="map-btn" target="_blank">Открыть в Apple Maps (7.53 км)</a>
 </div>
 
-<div class="card" data-id="loc-16" data-order="16">
+<div class="card" data-id="loc-16">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Ботанический сад Чэньшань</div>
@@ -670,7 +691,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CF3F9EB" class="map-btn" target="_blank">Открыть в Apple Maps (8.58 км)</a>
 </div>
 
-<div class="card" data-id="loc-17" data-order="17">
+<div class="card" data-id="loc-17">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Шанхайский кинопарк Чэдун</div>
@@ -690,7 +711,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55549F" class="map-btn" target="_blank">Открыть в Apple Maps (8.72 км)</a>
 </div>
 
-<div class="card" data-id="loc-18" data-order="18">
+<div class="card" data-id="loc-18">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Парк скульптур у озера Юэху</div>
@@ -710,7 +731,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267FB601C3" class="map-btn" target="_blank">Открыть в Apple Maps (9.02 км)</a>
 </div>
 
-<div class="card" data-id="loc-19" data-order="19">
+<div class="card" data-id="loc-19">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Национальный лесной парк Шэшань</div>
@@ -730,7 +751,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDDDF9B" class="map-btn" target="_blank">Открыть в Apple Maps (9.16 км)</a>
 </div>
 
-<div class="card" data-id="loc-20" data-order="20">
+<div class="card" data-id="loc-20">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Отель InterContinental Wonderland</div>
@@ -749,7 +770,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267D489A4F" class="map-btn" target="_blank">Открыть в Apple Maps (9.29 км)</a>
 </div>
 
-<div class="card" data-id="loc-21" data-order="21">
+<div class="card" data-id="loc-21">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Западный Шэшань и Базилика</div>
@@ -769,7 +790,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C889772" class="map-btn" target="_blank">Открыть в Apple Maps (9.71 км)</a>
 </div>
 
-<div class="card" data-id="loc-22" data-order="22">
+<div class="card" data-id="loc-22">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Наклонная пагода Хучжу</div>
@@ -789,7 +810,7 @@ font-size: 14px;
 <a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55FC7C" class="map-btn" target="_blank">Открыть в Apple Maps (10.36 км)</a>
 </div>
 
-<div class="card" data-id="loc-23" data-order="23">
+<div class="card" data-id="loc-23">
 <div class="card-header-row">
 <div class="card-header">
 <div class="title-ru">Древний город Сыцзин</div>
@@ -801,7 +822,7 @@ font-size: 14px;
 </label>
 </div>
 <div class="tags-row">
-<span class="tag">Историч. квартал</span>
+<span class="tag">Историч. город</span>
 <span class="tag">Бесплатно</span>
 <span class="tag">Круглосуточно</span>
 </div>
@@ -814,8 +835,8 @@ font-size: 14px;
 <!-- МАРШРУТЫ -->
 <main id="routes-section" class="section hidden">
 <div class="card route-card">
-<div class="route-num">Маршрут 1</div>
 <div class="title-ru">Сакральный сердечник</div>
+<div class="route-num">Маршрут 1</div>
 <div class="tags-row">
 <span class="tag">Citywalk</span>
 <span class="tag">~5.5 км</span>
@@ -867,8 +888,8 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
-<div class="route-num">Маршрут 2</div>
 <div class="title-ru">Канал и викторианство</div>
+<div class="route-num">Маршрут 2</div>
 <div class="tags-row">
 <span class="tag">Вело / Пеший</span>
 <span class="tag">~10 км</span>
@@ -911,8 +932,8 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
-<div class="route-num">Маршрут 3</div>
 <div class="title-ru">От неолита к футуризму</div>
+<div class="route-num">Маршрут 3</div>
 <div class="tags-row">
 <span class="tag">Автомобильный</span>
 <span class="tag">Культурный</span>
@@ -955,8 +976,8 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
-<div class="route-num">Маршрут 4</div>
 <div class="title-ru">Лесной эко-трекинг</div>
+<div class="route-num">Маршрут 4</div>
 <div class="tags-row">
 <span class="tag">Спортивный</span>
 <span class="tag">~16 км</span>
@@ -999,8 +1020,8 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
-<div class="route-num">Маршрут 5</div>
 <div class="title-ru">Речной релакс и ретро-кино</div>
+<div class="route-num">Маршрут 5</div>
 <div class="tags-row">
 <span class="tag">Южный комбинированный</span>
 <span class="tag">~12 км</span>
@@ -1088,6 +1109,7 @@ function applyVisitedState() {
     const state = getVisitedState();
     const cards = document.querySelectorAll('#locations-section .card');
     let visitedCount = 0;
+    const totalLocations = cards.length;
 
     cards.forEach(card => {
         const locId = card.getAttribute('data-id');
@@ -1104,10 +1126,15 @@ function applyVisitedState() {
         }
     });
 
-    // Обновление счетчика
+    // Динамическое обновление счетчиков (в шапке и на кнопке вкладки)
     const counterEl = document.getElementById('visited-counter');
     if (counterEl) {
-        counterEl.textContent = `Посещено: ${visitedCount} из ${cards.length}`;
+        counterEl.textContent = `Посещено: ${visitedCount} из ${totalLocations}`;
+    }
+
+    const locTabBtn = document.querySelector('.nav-tabs .tab-btn');
+    if (locTabBtn) {
+        locTabBtn.textContent = `📍 Локации (${totalLocations})`;
     }
 
     // Автоматическая сортировка
