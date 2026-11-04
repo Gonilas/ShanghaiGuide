@@ -333,7 +333,7 @@ font-size: 14px;
 }
 
 </style>
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
 <header>
@@ -1032,94 +1032,107 @@ font-size: 14px;
 
 <script>
 function switchTab(type) {
-const locSec = document.getElementById('locations-section');
-const routeSec = document.getElementById('routes-section');
-const btns = document.querySelectorAll('.tab-btn');
-if (type === 'locations') {
-locSec.classList.remove('hidden');
-routeSec.classList.add('hidden');
-btns[0].classList.add('active');
-btns[1].classList.remove('active');
-} else {
-locSec.classList.add('hidden');
-routeSec.classList.remove('hidden');
-btns[0].classList.remove('active');
-btns[1].classList.add('active');
-}
-window.scrollTo({ top: 0, behavior: 'smooth' });
+    const locSec = document.getElementById('locations-section');
+    const routeSec = document.getElementById('routes-section');
+    const btns = document.querySelectorAll('.tab-btn');
+    if (type === 'locations') {
+        locSec.classList.remove('hidden');
+        routeSec.classList.add('hidden');
+        btns[0].classList.add('active');
+        btns[1].classList.remove('active');
+    } else {
+        locSec.classList.add('hidden');
+        routeSec.classList.remove('hidden');
+        btns[0].classList.remove('active');
+        btns[1].classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Управление состоянием посещенных локаций
 function getVisitedState() {
-const stored = localStorage.getItem('visited_locations');
-return stored ? JSON.parse(stored) : {};
+    const stored = localStorage.getItem('visited_locations');
+    return stored ? JSON.parse(stored) : {};
 }
 
 function saveVisitedState(state) {
-localStorage.setItem('visited_locations', JSON.stringify(state));
+    localStorage.setItem('visited_locations', JSON.stringify(state));
 }
 
 function toggleVisited(locId) {
-const state = getVisitedState();
-state[locId] = !state[locId];
-saveVisitedState(state);
-applyVisitedState();
+    const state = getVisitedState();
+    state[locId] = !state[locId];
+    saveVisitedState(state);
+    applyVisitedState();
+}
+
+// Функция автоматического извлечения расстояния из текста кнопки (например, "(0.72 км)" -> 0.72)
+function extractDistance(card) {
+    const btn = card.querySelector('.map-btn');
+    if (!btn) return 999;
+    const text = btn.textContent;
+    const match = text.match(/\(([\d.]+)\s*км\)/);
+    if (match && match[1]) {
+        return parseFloat(match[1]);
+    }
+    return 999;
 }
 
 function applyVisitedState() {
-const state = getVisitedState();
-const cards = document.querySelectorAll('#locations-section .card');
-let visitedCount = 0;
+    const state = getVisitedState();
+    const cards = document.querySelectorAll('#locations-section .card');
+    let visitedCount = 0;
 
-cards.forEach(card => {
-const locId = card.getAttribute('data-id');
-const checkbox = card.querySelector('input[type="checkbox"]');
-const isVisited = !!state[locId];
+    cards.forEach(card => {
+        const locId = card.getAttribute('data-id');
+        const checkbox = card.querySelector('input[type="checkbox"]');
+        const isVisited = !!state[locId];
 
-if (isVisited) {
-visitedCount++;
-card.classList.add('visited');
-checkbox.checked = true;
-} else {
-card.classList.remove('visited');
-checkbox.checked = false;
-}
-});
+        if (isVisited) {
+            visitedCount++;
+            card.classList.add('visited');
+            if (checkbox) checkbox.checked = true;
+        } else {
+            card.classList.remove('visited');
+            if (checkbox) checkbox.checked = false;
+        }
+    });
 
-// Обновление счетчика
-const counterEl = document.getElementById('visited-counter');
-if (counterEl) {
-counterEl.textContent = `Посещено: ${visitedCount} из ${cards.length}`;
-}
+    // Обновление счетчика
+    const counterEl = document.getElementById('visited-counter');
+    if (counterEl) {
+        counterEl.textContent = `Посещено: ${visitedCount} из ${cards.length}`;
+    }
 
-// Сортировка: непосещенные сверху (в исходном порядке по расстоянию), посещенные внизу
-sortCards();
+    // Автоматическая сортировка
+    sortCards();
 }
 
 function sortCards() {
-const container = document.getElementById('locations-section');
-const cards = Array.from(container.children);
+    const container = document.getElementById('locations-section');
+    const cards = Array.from(container.children);
 
-cards.sort((a, b) => {
-const aVisited = a.classList.contains('visited') ? 1 : 0;
-const bVisited = b.classList.contains('visited') ? 1 : 0;
+    cards.sort((a, b) => {
+        const aVisited = a.classList.contains('visited') ? 1 : 0;
+        const bVisited = b.classList.contains('visited') ? 1 : 0;
 
-if (aVisited !== bVisited) {
-return aVisited - bVisited;
-}
+        // Сначала непосещенные, потом посещенные
+        if (aVisited !== bVisited) {
+            return aVisited - bVisited;
+        }
 
-// Если у обоих одинаковый статус, сохраняем порядок по дальности
-const aOrder = parseInt(a.getAttribute('data-order') || '0');
-const bOrder = parseInt(b.getAttribute('data-order') || '0');
-return aOrder - bOrder;
-});
+        // Если статус одинаков, сортируем автоматически по числу километров из текста кнопки
+        const distA = extractDistance(a);
+        const distB = extractDistance(b);
+        return distA - distB;
+    });
 
-cards.forEach(card => container.appendChild(card));
+    cards.forEach(card => container.appendChild(card));
 }
 
 // Запуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-applyVisitedState();
+    applyVisitedState();
 });
 </script>
 </body>
