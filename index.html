@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Путеводитель по Шанхаю | Shanghai Guide</title>
+<!-- Apple Web App support (PWA для домашнего экрана iPhone) -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#ea580c">
+<style>
+:root {
+--bg-color: #fff7ed;
+--card-bg: #ffffff;
+--card-visited-bg: #f3f4f6;
+--primary-orange: #c2410c;
+--accent-orange: #ea580c;
+--text-main: #1f2937;
+--text-sub: #4b5563;
+--text-muted: #9ca3af;
+--tag-bg: #ffedd5;
+--border-color: #fed7aa;
+--border-visited: #e5e7eb;
+--shadow: 0 4px 12px rgba(194, 65, 12, 0.08);
+}
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+-webkit-tap-highlight-color: transparent;
+}
+body {
+background-color: var(--bg-color);
+color: var(--text-main);
+padding: 16px 12px 40px;
+max-width: 600px;
+margin: 0 auto;
+}
+header {
+text-align: center;
+margin-bottom: 20px;
+padding: 12px 8px;
+}
+h1 {
+color: var(--primary-orange);
+font-size: 22px;
+font-weight: 800;
+margin-bottom: 6px;
+}
+.subtitle {
+color: var(--text-sub);
+font-size: 13px;
+font-weight: 500;
+}
+.counter-badge {
+display: inline-block;
+margin-top: 8px;
+background: var(--tag-bg);
+color: var(--primary-orange);
+font-weight: 700;
+font-size: 12px;
+padding: 4px 12px;
+border-radius: 20px;
+border: 1px solid var(--border-color);
+}
+.nav-tabs {
+display: flex;
+gap: 8px;
+margin-bottom: 20px;
+position: sticky;
+top: 10px;
+z-index: 100;
+background: rgba(255, 247, 237, 0.95);
+backdrop-filter: blur(8px);
+padding: 4px;
+border-radius: 12px;
+}
+.tab-btn {
+flex: 1;
+padding: 10px 0;
+border: none;
+border-radius: 8px;
+background: #ffedd5;
+color: var(--primary-orange);
+font-weight: 700;
+font-size: 14px;
+cursor: pointer;
+transition: all 0.2s ease;
+}
+.tab-btn.active {
+background: var(--accent-orange);
+color: #ffffff;
+box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+}
+.section {
+display: flex;
+flex-direction: column;
+gap: 16px;
+}
+.hidden {
+display: none !important;
+}
+.card {
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 16px;
+padding: 16px;
+box-shadow: var(--shadow);
+display: flex;
+flex-direction: column;
+gap: 10px;
+transition: all 0.3s ease;
+position: relative;
+}
+
+/* СТИЛИ ДЛЯ ПОСЕЩЕННЫХ ЛОКАЦИЙ */
+.card.visited {
+background: var(--card-visited-bg);
+border-color: var(--border-visited);
+box-shadow: none;
+opacity: 0.75;
+order: 999; /* Переносит в конец флекс-контейнера */
+}
+.card.visited .title-ru {
+color: #6b7280;
+text-decoration: line-through;
+}
+.card.visited .title-zh {
+color: #9ca3af;
+}
+.card.visited .tag {
+background-color: #e5e7eb;
+color: #6b7280;
+}
+.card.visited .description {
+color: #6b7280;
+}
+.card.visited .map-btn {
+background-color: #9ca3af;
+box-shadow: none;
+}
+
+.card-header-row {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+gap: 12px;
+}
+.card-header {
+display: flex;
+flex-direction: column;
+gap: 2px;
+flex: 1;
+}
+.title-ru {
+font-size: 17px;
+font-weight: 700;
+color: var(--primary-orange);
+line-height: 1.2;
+transition: color 0.2s ease;
+}
+.title-zh {
+font-size: 13px;
+font-weight: 600;
+color: var(--text-sub);
+}
+
+/* КАСТОМНЫЙ ЧЕКБОКС */
+.checkbox-container {
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+user-select: none;
+padding: 4px;
+margin-top: -2px;
+}
+.checkbox-container input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+.checkmark {
+height: 26px;
+width: 26px;
+background-color: #ffedd5;
+border: 2px solid var(--border-color);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.2s ease;
+}
+.checkbox-container:hover .checkmark {
+background-color: #fed7aa;
+}
+.checkbox-container input:checked ~ .checkmark {
+background-color: #10b981;
+border-color: #059669;
+}
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+width: 6px;
+height: 12px;
+border: solid white;
+border-width: 0 2.5px 2.5px 0;
+transform: rotate(45deg);
+margin-bottom: 2px;
+}
+.checkbox-container input:checked ~ .checkmark:after {
+display: block;
+}
+
+.tags-row {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-top: 2px;
+}
+.tag {
+background-color: var(--tag-bg);
+color: var(--primary-orange);
+font-size: 11px;
+font-weight: 600;
+padding: 3px 8px;
+border-radius: 6px;
+transition: all 0.2s ease;
+}
+.description {
+font-size: 13.5px;
+color: var(--text-main);
+line-height: 1.45;
+text-align: justify;
+transition: color 0.2s ease;
+}
+.map-btn {
+display: block;
+width: 100%;
+text-align: center;
+background-color: var(--accent-orange);
+color: #ffffff;
+font-weight: 700;
+font-size: 14px;
+padding: 12px 0;
+border-radius: 10px;
+text-decoration: none;
+margin-top: 4px;
+transition: all 0.2s ease;
+box-shadow: 0 2px 6px rgba(234, 88, 12, 0.25);
+}
+.map-btn:active {
+background-color: var(--primary-orange);
+}
+.route-card {
+border-left: 4px solid var(--accent-orange);
+}
+.route-num {
+font-size: 12px;
+font-weight: 700;
+color: var(--accent-orange);
+text-transform: uppercase;
+letter-spacing: 0.5px;
+}
+
+.route-steps {
+display: flex;
+flex-direction: column;
+gap: 8px;
+margin-top: 6px;
+padding-top: 10px;
+border-top: 1px dashed var(--border-color);
+}
+.route-steps-header {
+font-size: 12px;
+font-weight: 700;
+color: var(--primary-orange);
+margin-bottom: 2px;
+}
+.route-step-btn {
+display: flex;
+align-items: center;
+gap: 10px;
+background-color: var(--tag-bg);
+border: 1px solid var(--border-color);
+border-radius: 10px;
+padding: 10px 12px;
+text-decoration: none;
+color: var(--text-main);
+transition: all 0.2s ease;
+}
+.route-step-btn:active {
+background-color: #fed7aa;
+transform: scale(0.99);
+}
+.step-num {
+background: var(--accent-orange);
+color: #ffffff;
+font-weight: 800;
+font-size: 12px;
+width: 22px;
+height: 22px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-shrink: 0;
+}
+.step-info {
+display: flex;
+flex-direction: column;
+flex: 1;
+}
+.step-name-ru {
+font-size: 13px;
+font-weight: 700;
+color: var(--primary-orange);
+line-height: 1.2;
+}
+.step-name-zh {
+font-size: 11px;
+color: var(--text-sub);
+font-weight: 500;
+}
+.step-arrow {
+color: var(--accent-orange);
+font-weight: 800;
+font-size: 14px;
+}
+
+</style>
+</head>
+<body>
+<header>
+<h1>Путеводитель по Шанхаю</h1>
+<div class="subtitle">Локации и маршруты в радиусе 11 км от дома</div>
+<div class="counter-badge" id="visited-counter">Посещено: 0 из 23</div>
+</header>
+<div class="nav-tabs">
+<button class="tab-btn active" onclick="switchTab('locations')">📍 Локации (23)</button>
+<button class="tab-btn" onclick="switchTab('routes')">🗺 Маршруты (5)</button>
+</div>
+<!-- ЛОКАЦИИ -->
+<main id="locations-section" class="section">
+
+<div class="card" data-id="loc-1" data-order="1">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Парк Цзуйбайчи</div>
+<div class="title-zh">醉白池公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-1')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Сад / Наследие</span>
+<span class="tag">~12 RMB</span>
+<span class="tag">06:00–17:00</span>
+</div>
+<div class="description">Относится к числу пяти величайших классических садов Шанхая (эпоха Сун/Мин). Садовый ансамбль выстроен вокруг центрального пруда с лотосами, крытыми галереями и музеем художника Дун Цичана.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C72B3A4" class="map-btn" target="_blank">Открыть в Apple Maps (0.72 км)</a>
+</div>
+
+<div class="card" data-id="loc-2" data-order="2">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Сунцзянская мечеть</div>
+<div class="title-zh">松江清真寺</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-2')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Исламское наследие</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">09:00–17:00</span>
+</div>
+<div class="description">Старейший исламский храм Шанхая, основанный в 1391 году. Архитектурный комплекс представляет собой редчайший гибрид традиционного стиля Цзяннань и арабских элементов.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CB85865" class="map-btn" target="_blank">Открыть в Apple Maps (1.07 км)</a>
+</div>
+
+<div class="card" data-id="loc-3" data-order="3">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Храм Силинь / Пагода Юаньин</div>
+<div class="title-zh">西林禅寺 / 圆应塔</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-3')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Буддийский храм</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">05:30–16:30</span>
+</div>
+<div class="description">Основан в 872 году в эпоху Тан. Главной пространственной доминантой комплекса выступает 46.5-метровая семиярусная пагода Юаньин — высочайшая древняя пагода Шанхая.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C56E53A" class="map-btn" target="_blank">Открыть в Apple Maps (1.20 км)</a>
+</div>
+
+<div class="card" data-id="loc-4" data-order="4">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Парк Фантаюань</div>
+<div class="title-zh">方塔园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-4')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Парк / Пагода</span>
+<span class="tag">~12 RMB</span>
+<span class="tag">07:00–17:00</span>
+</div>
+<div class="description">Разбит вокруг 9-ярусной пагоды Синшэнцзяо (1086 г.). Парк также знаменит кирпичной экранной стеной Чжаоби 1370 года с рельефным изображением мифического зверя Тань.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C85F07E" class="map-btn" target="_blank">Открыть в Apple Maps (1.47 км)</a>
+</div>
+
+<div class="card" data-id="loc-5" data-order="5">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Музей Сунцзяна</div>
+<div class="title-zh">松江博物馆</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-5')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Музей</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">09:00–16:00 (Пн вых)</span>
+</div>
+<div class="description">Содержит богатую коллекцию археологических артефактов бронзового века, образцы традиционной текстильной культуры «Сунцзян Гусюань» и произведения каллиграфии.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CC0A460" class="map-btn" target="_blank">Открыть в Apple Maps (1.47 км)</a>
+</div>
+
+<div class="card" data-id="loc-6" data-order="6">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Центр «Юньцзянь» (Театр)</div>
+<div class="title-zh">云间会堂 / 云间剧院</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-6')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Модерн / Культура</span>
+<span class="tag">Свободный доступ</span>
+</div>
+<div class="description">Градостроительный акцент современной архитектуры, выполненный с использованием металлических ламелей, создающих визуальный образ китайской живописи шань-шуй.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F965198482B8" class="map-btn" target="_blank">Открыть в Apple Maps (1.97 км)</a>
+</div>
+
+<div class="card" data-id="loc-7" data-order="7">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Юньцзянь Лянцан</div>
+<div class="title-zh">云间粮仓文创园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-7')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Арт-кластер</span>
+<span class="tag">Вход 24/7</span>
+<span class="tag">Бары до 02:00</span>
+</div>
+<div class="description">Конверсия промышленного наследия. На территории сохранилось более 60 зданий и элеваторов 1950–1990-х годов с галереями, граффити на силосных башнях и пивоварнями.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F937E65A52F7" class="map-btn" target="_blank">Открыть в Apple Maps (1.99 км)</a>
+</div>
+
+<div class="card" data-id="loc-8" data-order="8">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Квартал Цанчэн / Мост Дацан</div>
+<div class="title-zh">仓城历史文化风貌区 / 大仓桥</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-8')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Историч. квартал</span>
+<span class="tag">Бесплатно</span>
+</div>
+<div class="description">Аутентичный древний порт Великого зернового канала. Главные объекты: пятипролетный каменный мост Дацан 1613 года и резной терем Души периода поздней Цин.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F980F0589CD8" class="map-btn" target="_blank">Открыть в Apple Maps (2.35 км)</a>
+</div>
+
+<div class="card" data-id="loc-9" data-order="9">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Парк Сысянь</div>
+<div class="title-zh">思贤公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-9')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Городской парк</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">Круглосуточно</span>
+</div>
+<div class="description">Парковый комплекс в городской черте Нового Сунцзяна. Предлагает благоустроенные водные набережные, каскадные мосты, сосновые аллеи и открытые газоны для отдыха.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C9D55E3" class="map-btn" target="_blank">Открыть в Apple Maps (2.72 км)</a>
+</div>
+
+<div class="card" data-id="loc-10" data-order="10">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Парк Улунху</div>
+<div class="title-zh">五龙湖公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-10')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Городской парк</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">Круглосуточно</span>
+</div>
+<div class="description">Современная рекреационная зона вокруг озера с каскадными променадами, видовыми площадками и зрелищной вечерней художественной подсветкой у воды.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268ECC4620" class="map-btn" target="_blank">Открыть в Apple Maps (2.75 км)</a>
+</div>
+
+<div class="card" data-id="loc-11" data-order="11">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Тэмс-Таун</div>
+<div class="title-zh">泰晤士小镇</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-11')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Тематич. город</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">Круглосуточно</span>
+</div>
+<div class="description">Архитектурная среда английского викторианского городка с ратушей и мощеными улицами. В центре работает знаменитый книжный магазин «Чжуншугэ» созерцательными зеркалами.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDF7284" class="map-btn" target="_blank">Открыть в Apple Maps (3.99 км)</a>
+</div>
+
+<div class="card" data-id="loc-12" data-order="12">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Университетский городок</div>
+<div class="title-zh">松江大学城 (文汇路)</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-12')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Молодежный узел</span>
+<span class="tag">Пик 17:00–23:00</span>
+</div>
+<div class="description">Крупный академический узел. Улица Вэньхуэйлу известна как гастрономический центр сотен доступных точек стрит-фуда и кафе, популярных в молодежной среде.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I447A94881AB9A" class="map-btn" target="_blank">Открыть в Apple Maps (4.61 км)</a>
+</div>
+
+<div class="card" data-id="loc-13" data-order="13">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Загородный парк Суннань</div>
+<div class="title-zh">松南郊野公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-13')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Эко-парк / Река</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">08:00–17:00</span>
+</div>
+<div class="description">Охватывает верховья реки Хуанпу, сохраняя дикий прибрежный ландшафт с тростниковыми плавнями, заливными лугами и сосновыми борами без коммерческого зашумления.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F97F6D09F0CE" class="map-btn" target="_blank">Открыть в Apple Maps (4.82 км)</a>
+</div>
+
+<div class="card" data-id="loc-14" data-order="14">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Археологический комплекс Гуанфулинь</div>
+<div class="title-zh">广富林文化遗址</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-14')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Археология</span>
+<span class="tag">Музеи ~30-50 RMB</span>
+</div>
+<div class="description">Следы неолитической культуры возрастом более 4000 лет. Главный объект — Подводный музей истории культуры, чьи треугольные крыши «плавают» на водной глади озера.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F92677E15CC5" class="map-btn" target="_blank">Открыть в Apple Maps (6.45 км)</a>
+</div>
+
+<div class="card" data-id="loc-15" data-order="15">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Загородный парк Гуанфулинь</div>
+<div class="title-zh">广富林郊野公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-15')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Загородный парк</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">08:00–17:00</span>
+</div>
+<div class="description">Обширная прилегающая природная территория, ориентированная на спокойные велопрогулки, просторные зеленые лужайки для отдыха и обустроенные кемпинг-зоны.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268214745C" class="map-btn" target="_blank">Открыть в Apple Maps (7.53 км)</a>
+</div>
+
+<div class="card" data-id="loc-16" data-order="16">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Ботанический сад Чэньшань</div>
+<div class="title-zh">辰山植物园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-16')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Ботсад / Природа</span>
+<span class="tag">~60 RMB</span>
+<span class="tag">08:00–17:00</span>
+</div>
+<div class="description">Крупнейший ботсад региона. Включает уникальный «Карьерный сад» в скальной котловине с понтонными мостами у воды и три крупнейшие в Азии крытые оранжереи.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CF3F9EB" class="map-btn" target="_blank">Открыть в Apple Maps (8.58 км)</a>
+</div>
+
+<div class="card" data-id="loc-17" data-order="17">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Шанхайский кинопарк Чэдун</div>
+<div class="title-zh">上海影视乐园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-17')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Съемочный парк</span>
+<span class="tag">~80 RMB</span>
+<span class="tag">08:30–16:30</span>
+</div>
+<div class="description">Съемочная площадка под открытым небом, воссоздающая набережную Вайтань и улицы Шанхая 1930-х годов. По территории проложены действующие линии ретро-трамваев.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55549F" class="map-btn" target="_blank">Открыть в Apple Maps (8.72 км)</a>
+</div>
+
+<div class="card" data-id="loc-18" data-order="18">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Парк скульптур у озера Юэху</div>
+<div class="title-zh">月湖雕塑公园</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-18')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Арт-парк / Озеро</span>
+<span class="tag">~120 RMB</span>
+<span class="tag">09:00–17:00</span>
+</div>
+<div class="description">Гармонично сочетает естественные озерные ландшафты с масштабными современными монументальными скульптурами известных мастеров и оборудованным пляжем.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267FB601C3" class="map-btn" target="_blank">Открыть в Apple Maps (9.02 км)</a>
+</div>
+
+<div class="card" data-id="loc-19" data-order="19">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Национальный лесной парк Шэшань</div>
+<div class="title-zh">佘山国家森林公园 (东)</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-19')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Лесной парк</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">08:30–16:30</span>
+</div>
+<div class="description">Единственный естественный горный массив Шанхая. Водный бамбуковый склон Восточного холма предлагает живописные пешеходные тропы и обзорные точки на окрестности.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDDDF9B" class="map-btn" target="_blank">Открыть в Apple Maps (9.16 км)</a>
+</div>
+
+<div class="card" data-id="loc-20" data-order="20">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Отель InterContinental Wonderland</div>
+<div class="title-zh">深坑酒店</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-20')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Футуристика</span>
+<span class="tag">Смотровая / Ресторан</span>
+</div>
+<div class="description">Уникальный инженерный проект: 18-этажный гостиничный корпус полностью встроен в вертикальную скальную стену заброшенного карьера глубиной 88 метров.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267D489A4F" class="map-btn" target="_blank">Открыть в Apple Maps (9.29 км)</a>
+</div>
+
+<div class="card" data-id="loc-21" data-order="21">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Западный Шэшань и Базилика</div>
+<div class="title-zh">西佘山 / 圣母大殿</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-21')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Гора / Собор</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">08:30–16:30</span>
+</div>
+<div class="description">На вершине холма расположена католическая базилика Девы Марии (1935 г.), обсерватория и древняя пагода Сюдаочжэ. Главный центр паломничества региона.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C889772" class="map-btn" target="_blank">Открыть в Apple Maps (9.71 км)</a>
+</div>
+
+<div class="card" data-id="loc-22" data-order="22">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Наклонная пагода Хучжу</div>
+<div class="title-zh">天马山护珠斜塔</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-22')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Наклонная пагода</span>
+<span class="tag">~10 RMB</span>
+<span class="tag">08:30–16:30</span>
+</div>
+<div class="description">Древняя кирпичная пагода XI века на холме Тяньмашань. Из-за неравномерной просадки грунта угол наклона башни превышает 7°, что делает её круче Пизанской.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55FC7C" class="map-btn" target="_blank">Открыть в Apple Maps (10.36 км)</a>
+</div>
+
+<div class="card" data-id="loc-23" data-order="23">
+<div class="card-header-row">
+<div class="card-header">
+<div class="title-ru">Древний город Сыцзин</div>
+<div class="title-zh">泗泾古镇</div>
+</div>
+<label class="checkbox-container" title="Отметить как посещенное">
+<input type="checkbox" onchange="toggleVisited('loc-23')">
+<span class="checkmark"></span>
+</label>
+</div>
+<div class="tags-row">
+<span class="tag">Историч. квартал</span>
+<span class="tag">Бесплатно</span>
+<span class="tag">Круглосуточно</span>
+</div>
+<div class="description">Живописный речной город на границе исследуемой зоны. Сохранил традиционную историческую застройку купеческих усадеб эпохи Цин вдоль каналов и каменных мостов.</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267A8F825F" class="map-btn" target="_blank">Открыть в Apple Maps (11.04 км)</a>
+</div>
+
+</main>
+
+<!-- МАРШРУТЫ -->
+<main id="routes-section" class="section hidden">
+<div class="card route-card">
+<div class="route-num">Маршрут 1</div>
+<div class="title-ru">Сакральный сердечник</div>
+<div class="tags-row">
+<span class="tag">Citywalk</span>
+<span class="tag">~5.5 км</span>
+<span class="tag">1 день</span>
+</div>
+<div class="description">Пеший день по историческому центру Сунцзяна. Охватывает главные духовные и архитектурные сокровища региона — от танской пагоды до арт-элеваторов.</div>
+<div class="route-steps">
+<div class="route-steps-header">Точки маршрута (нажмите для навигации):</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C56E53A" class="route-step-btn" target="_blank">
+<span class="step-num">1</span>
+<span class="step-info">
+<span class="step-name-ru">1. Храм Силинь / Пагода Юаньин</span>
+<span class="step-name-zh">西林禅寺 / 圆应塔</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CB85865" class="route-step-btn" target="_blank">
+<span class="step-num">2</span>
+<span class="step-info">
+<span class="step-name-ru">2. Сунцзянская мечеть</span>
+<span class="step-name-zh">松江清真寺</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C72B3A4" class="route-step-btn" target="_blank">
+<span class="step-num">3</span>
+<span class="step-info">
+<span class="step-name-ru">3. Парк Цзуйбайчи</span>
+<span class="step-name-zh">醉白池公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C85F07E" class="route-step-btn" target="_blank">
+<span class="step-num">4</span>
+<span class="step-info">
+<span class="step-name-ru">4. Парк Фантаюань (Квадратная пагода)</span>
+<span class="step-name-zh">方塔园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F937E65A52F7" class="route-step-btn" target="_blank">
+<span class="step-num">5</span>
+<span class="step-info">
+<span class="step-name-ru">5. Арт-кластер Юньцзянь Лянцан</span>
+<span class="step-name-zh">云间粮仓文创园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+</div>
+</div>
+<div class="card route-card">
+<div class="route-num">Маршрут 2</div>
+<div class="title-ru">Канал и викторианство</div>
+<div class="tags-row">
+<span class="tag">Вело / Пеший</span>
+<span class="tag">~10 км</span>
+</div>
+<div class="description">Контрастный маршрут от старинных речных теремов эпохи Цин через современные парковые набережные к английским улочкам Тэмс-Тауна.</div>
+<div class="route-steps">
+<div class="route-steps-header">Точки маршрута (нажмите для навигации):</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F980F0589CD8" class="route-step-btn" target="_blank">
+<span class="step-num">1</span>
+<span class="step-info">
+<span class="step-name-ru">1. Мост Дацан и квартал Цанчэн</span>
+<span class="step-name-zh">大仓桥 / 仓城历史风貌区</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C9D55E3" class="route-step-btn" target="_blank">
+<span class="step-num">2</span>
+<span class="step-info">
+<span class="step-name-ru">2. Парк Сысянь</span>
+<span class="step-name-zh">思贤公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDF7284" class="route-step-btn" target="_blank">
+<span class="step-num">3</span>
+<span class="step-info">
+<span class="step-name-ru">3. Тэмс-Таун (Книжный Чжуншугэ)</span>
+<span class="step-name-zh">泰晤士小镇</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I447A94881AB9A" class="route-step-btn" target="_blank">
+<span class="step-num">4</span>
+<span class="step-info">
+<span class="step-name-ru">4. Гастро-улица Вэньхуэйлу (Университетский городок)</span>
+<span class="step-name-zh">松江大学城 (文汇路)</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+</div>
+</div>
+<div class="card route-card">
+<div class="route-num">Маршрут 3</div>
+<div class="title-ru">От неолита к футуризму</div>
+<div class="tags-row">
+<span class="tag">Автомобильный</span>
+<span class="tag">Культурный</span>
+</div>
+<div class="description">Путешествие сквозь сквозь эпохи: от затопленных неолитических артефактов возрастом 4000 лет к футуристическому отелю внутри 88-метрового карьера.</div>
+<div class="route-steps">
+<div class="route-steps-header">Точки маршрута (нажмите для навигации):</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F92677E15CC5" class="route-step-btn" target="_blank">
+<span class="step-num">1</span>
+<span class="step-info">
+<span class="step-name-ru">1. Археологический комплекс Гуанфулинь</span>
+<span class="step-name-zh">广富林文化遗址</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268214745C" class="route-step-btn" target="_blank">
+<span class="step-num">2</span>
+<span class="step-info">
+<span class="step-name-ru">2. Загородный парк Гуанфулинь</span>
+<span class="step-name-zh">广富林郊野公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267D489A4F" class="route-step-btn" target="_blank">
+<span class="step-num">3</span>
+<span class="step-info">
+<span class="step-name-ru">3. Отель InterContinental Wonderland</span>
+<span class="step-name-zh">深坑酒店</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9267FB601C3" class="route-step-btn" target="_blank">
+<span class="step-num">4</span>
+<span class="step-info">
+<span class="step-name-ru">4. Парк скульптур у озера Юэху</span>
+<span class="step-name-zh">月湖雕塑公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+</div>
+</div>
+<div class="card route-card">
+<div class="route-num">Маршрут 4</div>
+<div class="title-ru">Лесной эко-трекинг</div>
+<div class="tags-row">
+<span class="tag">Спортивный</span>
+<span class="tag">~16 км</span>
+</div>
+<div class="description">Маршрут для любителей природы и подъемов: карьерные оранжереи, падающая китайская пагода и паломническая базилика на вершине холма.</div>
+<div class="route-steps">
+<div class="route-steps-header">Точки маршрута (нажмите для навигации):</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CF3F9EB" class="route-step-btn" target="_blank">
+<span class="step-num">1</span>
+<span class="step-info">
+<span class="step-name-ru">1. Ботанический сад Чэньшань</span>
+<span class="step-name-zh">辰山植物园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55FC7C" class="route-step-btn" target="_blank">
+<span class="step-num">2</span>
+<span class="step-info">
+<span class="step-name-ru">2. Наклонная пагода Хучжу (Холм Тяньмашань)</span>
+<span class="step-name-zh">天马山护珠斜塔</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C889772" class="route-step-btn" target="_blank">
+<span class="step-num">3</span>
+<span class="step-info">
+<span class="step-name-ru">3. Базилика Девы Марии (Западный Шэшань)</span>
+<span class="step-name-zh">西佘山 / 圣母大殿</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8CDDDF9B" class="route-step-btn" target="_blank">
+<span class="step-num">4</span>
+<span class="step-info">
+<span class="step-name-ru">4. Национальный лесной парк Шэшань (Восточный)</span>
+<span class="step-name-zh">佘山国家森林公园 (东)</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+</div>
+</div>
+<div class="card route-card">
+<div class="route-num">Маршрут 5</div>
+<div class="title-ru">Речной релакс и ретро-кино</div>
+<div class="tags-row">
+<span class="tag">Южный комбинированный</span>
+<span class="tag">~12 км</span>
+</div>
+<div class="description">Смешение дикой природы прибрежных тростников реки Хуанпу, атмосферы ретро-Шанхая 1930-х годов с трамваями и современного озерного променада.</div>
+<div class="route-steps">
+<div class="route-steps-header">Точки маршрута (нажмите для навигации):</div>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F97F6D09F0CE" class="route-step-btn" target="_blank">
+<span class="step-num">1</span>
+<span class="step-info">
+<span class="step-name-ru">1. Загородный парк Суннань</span>
+<span class="step-name-zh">松南郊野公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F80D8C55549F" class="route-step-btn" target="_blank">
+<span class="step-num">2</span>
+<span class="step-info">
+<span class="step-name-ru">2. Шанхайский кинопарк Чэдун</span>
+<span class="step-name-zh">上海影视乐园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+<a href="https://maps.apple.com.cn/place?place-id=H2710I3F9268ECC4620" class="route-step-btn" target="_blank">
+<span class="step-num">3</span>
+<span class="step-info">
+<span class="step-name-ru">3. Парк Улунху</span>
+<span class="step-name-zh">五龙湖公园</span>
+</span>
+<span class="step-arrow">➔</span>
+</a>
+</div>
+</div>
+</main>
+
+<script>
+function switchTab(type) {
+const locSec = document.getElementById('locations-section');
+const routeSec = document.getElementById('routes-section');
+const btns = document.querySelectorAll('.tab-btn');
+if (type === 'locations') {
+locSec.classList.remove('hidden');
+routeSec.classList.add('hidden');
+btns[0].classList.add('active');
+btns[1].classList.remove('active');
+} else {
+locSec.classList.add('hidden');
+routeSec.classList.remove('hidden');
+btns[0].classList.remove('active');
+btns[1].classList.add('active');
+}
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Управление состоянием посещенных локаций
+function getVisitedState() {
+const stored = localStorage.getItem('visited_locations');
+return stored ? JSON.parse(stored) : {};
+}
+
+function saveVisitedState(state) {
+localStorage.setItem('visited_locations', JSON.stringify(state));
+}
+
+function toggleVisited(locId) {
+const state = getVisitedState();
+state[locId] = !state[locId];
+saveVisitedState(state);
+applyVisitedState();
+}
+
+function applyVisitedState() {
+const state = getVisitedState();
+const cards = document.querySelectorAll('#locations-section .card');
+let visitedCount = 0;
+
+cards.forEach(card => {
+const locId = card.getAttribute('data-id');
+const checkbox = card.querySelector('input[type="checkbox"]');
+const isVisited = !!state[locId];
+
+if (isVisited) {
+visitedCount++;
+card.classList.add('visited');
+checkbox.checked = true;
+} else {
+card.classList.remove('visited');
+checkbox.checked = false;
+}
+});
+
+// Обновление счетчика
+const counterEl = document.getElementById('visited-counter');
+if (counterEl) {
+counterEl.textContent = `Посещено: ${visitedCount} из ${cards.length}`;
+}
+
+// Сортировка: непосещенные сверху (в исходном порядке по расстоянию), посещенные внизу
+sortCards();
+}
+
+function sortCards() {
+const container = document.getElementById('locations-section');
+const cards = Array.from(container.children);
+
+cards.sort((a, b) => {
+const aVisited = a.classList.contains('visited') ? 1 : 0;
+const bVisited = b.classList.contains('visited') ? 1 : 0;
+
+if (aVisited !== bVisited) {
+return aVisited - bVisited;
+}
+
+// Если у обоих одинаковый статус, сохраняем порядок по дальности
+const aOrder = parseInt(a.getAttribute('data-order') || '0');
+const bOrder = parseInt(b.getAttribute('data-order') || '0');
+return aOrder - bOrder;
+});
+
+cards.forEach(card => container.appendChild(card));
+}
+
+// Запуск при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+applyVisitedState();
+});
+</script>
+</body>
+</html>
