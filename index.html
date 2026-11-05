@@ -342,6 +342,9 @@ font-size: 14px;
 
 </style>
 <link rel="icon" type="image/png" href="favicon.png">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 </head>
 <body>
 <header>
@@ -1177,6 +1180,27 @@ function sortCards() {
 // Запуск при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
     applyVisitedState();
+});
+// Задайте здесь нужную версию (просто меняйте число при обновлениях)
+const APP_VERSION = '1.2'; 
+
+// Автоматически добавляет ?v=ВЕРСИЯ ко всем иконкам и манифесту
+document.addEventListener('DOMContentLoaded', () => {
+    const selectors = [
+        'link[rel="icon"]',
+        'link[rel="shortcut icon"]',
+        'link[rel="apple-touch-icon"]',
+        'link[rel="manifest"]'
+    ];
+    
+    selectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+            const href = el.getAttribute('href');
+            if (href && !href.includes('?v=')) {
+                el.setAttribute('href', `${href}?v=${APP_VERSION}`);
+            }
+        });
+    });
 });
 </script>
 </body>
