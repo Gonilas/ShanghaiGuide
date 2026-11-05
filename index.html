@@ -264,16 +264,17 @@ background-color: var(--primary-orange);
 }
 
 /* Единый стиль карточек маршрутов (без левой полоски) */
-.route-card {
-/* Убрана оранжевая полоска border-left */
+/* Обновленные стили для шапки маршрута */
+.route-card .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 .route-num {
-font-size: 13px;
-font-weight: 600;
-color: var(--text-sub);
-margin-top: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
 }
-
 .route-steps {
 display: flex;
 flex-direction: column;
@@ -835,8 +836,10 @@ font-size: 14px;
 <!-- МАРШРУТЫ -->
 <main id="routes-section" class="section hidden">
 <div class="card route-card">
+<div class="card-header">
 <div class="title-ru">Сакральный сердечник</div>
-<div class="route-num">Маршрут 1</div>
+<div class="route-num">МАРШРУТ 1</div>
+</div>
 <div class="tags-row">
 <span class="tag">Citywalk</span>
 <span class="tag">~5.5 км</span>
@@ -888,8 +891,10 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
+<div class="card-header">
 <div class="title-ru">Канал и викторианство</div>
-<div class="route-num">Маршрут 2</div>
+<div class="route-num">МАРШРУТ 2</div>
+</div>
 <div class="tags-row">
 <span class="tag">Вело / Пеший</span>
 <span class="tag">~10 км</span>
@@ -932,8 +937,10 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
+<div class="card-header">
 <div class="title-ru">От неолита к футуризму</div>
-<div class="route-num">Маршрут 3</div>
+<div class="route-num">МАРШРУТ 3</div>
+</div>
 <div class="tags-row">
 <span class="tag">Автомобильный</span>
 <span class="tag">Культурный</span>
@@ -976,8 +983,10 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
+<div class="card-header">
 <div class="title-ru">Лесной эко-трекинг</div>
-<div class="route-num">Маршрут 4</div>
+<div class="route-num">МАРШРУТ 4</div>
+</div>
 <div class="tags-row">
 <span class="tag">Спортивный</span>
 <span class="tag">~16 км</span>
@@ -1020,8 +1029,10 @@ font-size: 14px;
 </div>
 </div>
 <div class="card route-card">
+<div class="card-header">
 <div class="title-ru">Речной релакс и ретро-кино</div>
-<div class="route-num">Маршрут 5</div>
+<div class="route-num">МАРШРУТ 5</div>
+</div>
 <div class="tags-row">
 <span class="tag">Южный комбинированный</span>
 <span class="tag">~12 км</span>
